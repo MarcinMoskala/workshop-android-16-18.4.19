@@ -16,19 +16,39 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"/>
-    <Button
-            android:text="Take photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/takePhotoButton" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="17dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
     <ImageView
             android:layout_width="0dp"
-            android:layout_height="0dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/imageView" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/takePhotoButton" android:layout_marginTop="8dp"
+            android:layout_height="0dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/imageView" android:layout_marginBottom="8dp" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp" app:layout_constraintBottom_toTopOf="@+id/linearLayout2"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:id="@+id/linearLayout2">
+        <Button
+                android:text="Take photo"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/takePhotoButton" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="24dp"
+                app:layout_constraintEnd_toStartOf="@+id/logoutButton" android:layout_marginEnd="8dp"
+                app:layout_constraintHorizontal_bias="0.0"/>
+        <Button
+                android:text="Logout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/takePhotoButton"
+                android:id="@+id/logoutButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                android:layout_marginBottom="17dp" app:layout_constraintBottom_toBottomOf="parent"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

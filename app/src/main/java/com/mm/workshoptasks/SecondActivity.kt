@@ -14,6 +14,8 @@ class SecondActivity : AppCompatActivity() {
     private val text by argString(TEXT_ARG)
     private val user by arg<User>(USER_ARG)
 
+    private val prefRepo = PrefRepo(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -23,6 +25,15 @@ class SecondActivity : AppCompatActivity() {
             if (takePictureIntent.resolveActivity(packageManager) != null) {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             }
+        }
+
+        val email = prefRepo.getEmail() ?: throw Error("User is not logged it")
+        toast("Hello, $email")
+
+        logoutButton.setOnClickListener {
+            prefRepo.removeEmail()
+            MainActivity.start(this)
+            finish()
         }
     }
 

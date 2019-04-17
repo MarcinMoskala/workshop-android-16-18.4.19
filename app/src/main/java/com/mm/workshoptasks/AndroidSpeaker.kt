@@ -19,6 +19,10 @@ class AndroidSpeaker: Speaker {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null)
         }
     }
+
+    fun onDestroy() {
+        tts.shutdown()
+    }
 }
 
 interface Speaker {

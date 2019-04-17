@@ -1,5 +1,6 @@
 package com.mm.workshoptasks
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
@@ -14,11 +15,18 @@ class MainActivity : AppCompatActivity() {
 
     private var counter = 0
     private val speaker = AndroidSpeaker()
+    private val prefRepo = PrefRepo(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if(prefRepo.getEmail() != null) {
+            startSecond()
+        }
+
         speaker.init(this)
+
+        showNumOpened()
 
         passwordView.setOnEditorActionListener { _, actionId, event ->
             val isActionLogin = (actionId == EditorInfo.IME_ACTION_GO ||
@@ -29,10 +37,20 @@ class MainActivity : AppCompatActivity() {
             isActionLogin
         }
 
-
         loginButton.setOnClickListener {
             login()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        speaker.onDestroy()
+    }
+
+    private fun showNumOpened() {
+        val numOpened = prefRepo.getEntryCount() + 1
+        toast("Opened num $numOpened")
+        prefRepo.setEntryCount(numOpened)
     }
 
     private fun login() {
@@ -45,8 +63,13 @@ class MainActivity : AppCompatActivity() {
         } else {
             counter = 0
             attemptsLabelView.visibility = View.GONE
-            toast("Success")
+            loginSuccess(email)
         }
+    }
+
+    private fun loginSuccess(email: String) {
+        prefRepo.setEmail(email)
+        startSecond()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.add_task -> {
-            onAddTaskClicked()
+            startSecond()
             true
         }
         R.id.message_task -> {
@@ -66,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun onAddTaskClicked() {
+    private fun startSecond() {
         SecondActivity.start(this, "THIS IS SOME TEXT", User("Marcin", "Moskała"))
         finish()
     }
@@ -80,6 +103,13 @@ class MainActivity : AppCompatActivity() {
 
         if (sendIntent.resolveActivity(packageManager) != null) {
             startActivity(sendIntent)
+        }
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            val intent = Intent(activity, MainActivity::class.java)
+            activity.startActivity(intent)
         }
     }
 }
