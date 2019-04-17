@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WorkshopTasks</string>
+    <string name="email_hint">Email</string>
+    <string name="attempts_text">Failed to login num %1$d</string>
+    <string name="pass_hint">Password</string>
+    <string name="remind_password">Remind password</string>
+    <string name="login_button">Login</string>
+    <string name="argumets_display">Text is %1$s, user name is %2$s</string>
+</resources>
