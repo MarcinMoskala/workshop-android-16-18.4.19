@@ -7,4 +7,9 @@
     <string name="remind_password">Przypomnij hasło</string>
     <string name="login_button">Login</string>
     <string name="argumets_display">Text to %1$s, użytkowni to %2$s</string>
+    <string name="logout">Wyloguj</string>
+    <string name="title_picture">Picture</string>
+    <string name="login_title">Logowanie</string>
+    <string name="title_settings">Ustawienia</string>
+    <string name="take_picture_button">Zrób zdjęcie</string>
 </resources>

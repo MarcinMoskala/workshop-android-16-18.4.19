@@ -6,4 +6,9 @@
     <string name="remind_password">Remind password</string>
     <string name="login_button">Login</string>
     <string name="argumets_display">Text is %1$s, user name is %2$s</string>
+    <string name="logout">Logout</string>
+    <string name="take_picture_button">Take picture</string>
+    <string name="title_picture">Picture</string>
+    <string name="title_settings">Settings</string>
+    <string name="login_title">Login screen</string>
 </resources>

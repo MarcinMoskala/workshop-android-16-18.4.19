@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/add_task"
+    <item android:id="@+id/send_message_task"
           app:showAsAction="always"
           android:icon="@drawable/ic_add"
-          android:title="Add"/>
+          android:title="Send message" />
     <item android:id="@+id/message_task"
           app:showAsAction="always"
           android:icon="@drawable/ic_message"
-          android:title="Show message" />
+          android:title="Say something" />
 </menu>

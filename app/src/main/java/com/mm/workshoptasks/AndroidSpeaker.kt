@@ -4,11 +4,11 @@ import android.content.Context
 import android.os.Build
 import android.speech.tts.TextToSpeech
 
-class AndroidSpeaker: Speaker {
+class AndroidSpeaker(val context: Context): Speaker {
 
     lateinit var tts: TextToSpeech
 
-    fun init(context: Context) {
+    override fun init() {
         tts = TextToSpeech(context, null)
     }
 
@@ -20,11 +20,13 @@ class AndroidSpeaker: Speaker {
         }
     }
 
-    fun onDestroy() {
+    override fun onDestroy() {
         tts.shutdown()
     }
 }
 
 interface Speaker {
+    fun init()
     fun speak(text: String)
+    fun onDestroy()
 }

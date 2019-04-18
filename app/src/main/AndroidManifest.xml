@@ -13,17 +13,21 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="false"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity
+                android:name=".MainActivity">
+        </activity>
         <activity android:name=".recycler.ListActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+                android:label="@string/login_title"
+                android:theme="@style/AppTheme"
+                android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".SecondActivity">
         </activity>
     </application>
 
