@@ -1,4 +1,4 @@
-package com.mm.workshoptasks
+package com.mm.workshoptasks.presentation.login
 
 import android.app.Activity
 import android.content.Intent
@@ -9,71 +9,41 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import com.mm.workshoptasks.data.AndroidSpeaker
+import com.mm.workshoptasks.data.StorageRepo
+import com.mm.workshoptasks.R
+import com.mm.workshoptasks.data.Speaker
+import com.mm.workshoptasks.data.StorageRepoImpl
+import com.mm.workshoptasks.presentation.main.MainActivity
+import com.mm.workshoptasks.presentation.toast
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginView {
 
-    private var counter = 0
-    private val speaker: Speaker = AndroidSpeaker(this)
-    private val prefRepo = PrefRepo(this)
+    private val presenter by lazy { LoginPresenter(this, StorageRepoImpl(this), AndroidSpeaker(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        checkIfNotLogged()
-        speaker.init()
-        showNumOpened()
+        presenter.onStart()
 
         passwordView.setOnEditorActionListener { _, actionId, event ->
             val isActionLogin = (actionId == EditorInfo.IME_ACTION_GO ||
                     event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)
             if (isActionLogin) {
-                login()
+                presenter.onLoginClicked()
             }
             isActionLogin
         }
 
         logoutButton.setOnClickListener {
-            login()
-        }
-    }
-
-    private fun checkIfNotLogged() {
-        val emailInPreferences = prefRepo.getEmail()
-        if (emailInPreferences != null) {
-            loginSuccess(emailInPreferences)
+            presenter.onLoginClicked()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        speaker.onDestroy()
-    }
-
-    private fun showNumOpened() {
-        val numOpened = prefRepo.getEntryCount() + 1
-        toast("Opened num $numOpened")
-        prefRepo.setEntryCount(numOpened)
-    }
-
-    private fun login() {
-        val email = emailView.text.toString()
-        val pass = passwordView.text.toString()
-        if ("@" !in email || pass != "aaa") { // Replace with actual login verification
-            counter++
-            attemptsLabelView.visibility = View.VISIBLE
-            attemptsLabelView.text = getString(R.string.attempts_text, counter)
-        } else {
-            counter = 0
-            attemptsLabelView.visibility = View.GONE
-            loginSuccess(email)
-        }
-    }
-
-    private fun loginSuccess(email: String) {
-        prefRepo.setEmail(email)
-        MainActivity.start(this, email)
-        finish()
+        presenter.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -83,29 +53,47 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.message_task -> {
-            saySomething()
+            presenter.onMessageTaskClicked()
             true
         }
         R.id.send_message_task -> {
-            onSendMessageTaskClicked()
+            presenter.onSendTaskClicked()
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun saySomething() {
-        speaker.speak("I say something random!")
-    }
-
-    private fun onSendMessageTaskClicked() {
+    override fun startShareMessageActivity(message: String) {
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "Some text")
+            putExtra(Intent.EXTRA_TEXT, message)
             type = "text/plain"
         }.let { Intent.createChooser(it, "Share using:") }
 
         if (sendIntent.resolveActivity(packageManager) != null) {
             startActivity(sendIntent)
+        }
+    }
+
+    override fun showMessage(message: String) {
+        toast(message)
+    }
+
+    override fun switchToMainActivity(email: String) {
+        MainActivity.start(this, email)
+        finish()
+    }
+
+    override fun getEmail(): String = emailView.text.toString()
+
+    override fun getPassword(): String = passwordView.text.toString()
+
+    override fun displayAttempts(count: Int?) {
+        if(count != null) {
+            attemptsLabelView.visibility = View.VISIBLE
+            attemptsLabelView.text = getString(R.string.attempts_text, count)
+        } else {
+            attemptsLabelView.visibility = View.GONE
         }
     }
 

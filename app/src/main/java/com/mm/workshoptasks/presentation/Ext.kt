@@ -1,4 +1,4 @@
-package com.mm.workshoptasks
+package com.mm.workshoptasks.presentation
 
 import android.app.Activity
 import android.content.Context

@@ -16,14 +16,14 @@
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".MainActivity">
+                android:name=".presentation.main.MainActivity">
         </activity>
-        <activity android:name=".recycler.ListActivity">
+        <activity android:name="com.mm.workshoptasks.presentation.recycler.ListActivity">
         </activity>
         <activity
                 android:label="@string/login_title"
                 android:theme="@style/AppTheme"
-                android:name=".LoginActivity">
+                android:name=".presentation.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

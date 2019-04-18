@@ -1,4 +1,4 @@
-package com.mm.workshoptasks.recycler
+package com.mm.workshoptasks.presentation.recycler
 
 import com.mm.workshoptasks.R
 import kotlinx.android.synthetic.main.item_title.*

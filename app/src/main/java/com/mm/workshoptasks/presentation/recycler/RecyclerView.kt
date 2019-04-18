@@ -1,4 +1,4 @@
-package com.mm.workshoptasks.recycler
+package com.mm.workshoptasks.presentation.recycler
 
 import android.view.LayoutInflater
 import android.view.View

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:id="@+id/containerView"
         android:layout_height="match_parent"
-        tools:context=".LoginActivity">
+        tools:context=".presentation.login.LoginActivity">
 
     <LinearLayout
             android:orientation="vertical"

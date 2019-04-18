@@ -1,10 +1,15 @@
-package com.mm.workshoptasks
+package com.mm.workshoptasks.presentation.main
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.mm.workshoptasks.R
+import com.mm.workshoptasks.presentation.photo.PhotoFragment
+import com.mm.workshoptasks.presentation.settings.SettingsFragment
+import com.mm.workshoptasks.presentation.argString
+import com.mm.workshoptasks.presentation.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

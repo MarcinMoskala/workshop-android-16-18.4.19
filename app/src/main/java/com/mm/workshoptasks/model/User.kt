@@ -1,4 +1,4 @@
-package com.mm.workshoptasks
+package com.mm.workshoptasks.model
 
 import android.os.Parcel
 import android.os.Parcelable

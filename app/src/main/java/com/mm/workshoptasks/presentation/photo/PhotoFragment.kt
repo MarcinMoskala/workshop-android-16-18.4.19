@@ -1,18 +1,15 @@
-package com.mm.workshoptasks
+package com.mm.workshoptasks.presentation.photo
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_second.*
-import kotlinx.android.synthetic.main.fragment_photo.*
+import com.mm.workshoptasks.R
 import kotlinx.android.synthetic.main.fragment_photo.imageView
 import kotlinx.android.synthetic.main.fragment_photo.takePhotoButton
 
@@ -26,7 +23,9 @@ class PhotoFragment : Fragment() {
         takePhotoButton.setOnClickListener {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (takePictureIntent.resolveActivity(activity!!.packageManager) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                startActivityForResult(takePictureIntent,
+                    REQUEST_IMAGE_CAPTURE
+                )
             }
         }
     }
