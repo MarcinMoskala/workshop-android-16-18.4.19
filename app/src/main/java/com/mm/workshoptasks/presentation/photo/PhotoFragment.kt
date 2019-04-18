@@ -13,20 +13,17 @@ import com.mm.workshoptasks.R
 import kotlinx.android.synthetic.main.fragment_photo.imageView
 import kotlinx.android.synthetic.main.fragment_photo.takePhotoButton
 
-class PhotoFragment : Fragment() {
+class PhotoFragment : Fragment(), PhotoView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_photo, container, false)
 
+    private val presenter by lazy { PhotoPresenter(this) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         takePhotoButton.setOnClickListener {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (takePictureIntent.resolveActivity(activity!!.packageManager) != null) {
-                startActivityForResult(takePictureIntent,
-                    REQUEST_IMAGE_CAPTURE
-                )
-            }
+            presenter.onTakePhoto()
         }
     }
 
@@ -34,10 +31,21 @@ class PhotoFragment : Fragment() {
         when {
             requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK -> {
                 val imageBitmap = data?.extras?.get("data") as Bitmap
-                imageView.setImageBitmap(imageBitmap)
+                presenter.onPhotoReturned(imageBitmap)
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun startCameraForPhoto() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(activity!!.packageManager) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        }
+    }
+
+    override fun displayImage(imageBitmap: Bitmap) {
+        imageView.setImageBitmap(imageBitmap)
     }
 
     companion object {

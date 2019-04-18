@@ -12,16 +12,21 @@ import com.mm.workshoptasks.presentation.argString
 import com.mm.workshoptasks.presentation.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainView {
 
     private val email by argString(EMAIL_ARG)
+    private val presenter by lazy { MainPresenter(this, email) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        showFragment(PhotoFragment())
         setupNavigation()
-        toast("Hello, $email")
+        showFragment(PhotoFragment())
+        presenter.onStart()
+    }
+
+    override fun showMessage(message: String) {
+        toast(message)
     }
 
     private fun showFragment(fragment: Fragment) {
