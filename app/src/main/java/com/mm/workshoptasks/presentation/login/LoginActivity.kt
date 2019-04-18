@@ -9,22 +9,25 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.mm.workshoptasks.data.AndroidSpeaker
-import com.mm.workshoptasks.data.StorageRepo
 import com.mm.workshoptasks.R
-import com.mm.workshoptasks.data.Speaker
 import com.mm.workshoptasks.data.StorageRepoImpl
+import com.mm.workshoptasks.databinding.ActivityLoginBinding
 import com.mm.workshoptasks.presentation.main.MainActivity
 import com.mm.workshoptasks.presentation.toast
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), LoginView {
 
-    private val presenter by lazy { LoginPresenter(this, StorageRepoImpl(this), AndroidSpeaker(this)) }
+    private val presenter by lazy { LoginViewModel(this, StorageRepoImpl(this), AndroidSpeaker(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        DataBindingUtil
+            .setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
+            .vm = presenter
+
         presenter.onStart()
 
         passwordView.setOnEditorActionListener { _, actionId, event ->
@@ -34,10 +37,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
                 presenter.onLoginClicked()
             }
             isActionLogin
-        }
-
-        logoutButton.setOnClickListener {
-            presenter.onLoginClicked()
         }
     }
 
@@ -82,19 +81,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
     override fun switchToMainActivity(email: String) {
         MainActivity.start(this, email)
         finish()
-    }
-
-    override fun getEmail(): String = emailView.text.toString()
-
-    override fun getPassword(): String = passwordView.text.toString()
-
-    override fun displayAttempts(count: Int?) {
-        if(count != null) {
-            attemptsLabelView.visibility = View.VISIBLE
-            attemptsLabelView.text = getString(R.string.attempts_text, count)
-        } else {
-            attemptsLabelView.visibility = View.GONE
-        }
     }
 
     companion object {

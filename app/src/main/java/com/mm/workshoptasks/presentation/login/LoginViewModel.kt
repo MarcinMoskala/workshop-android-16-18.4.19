@@ -1,13 +1,25 @@
 package com.mm.workshoptasks.presentation.login
 
+import android.view.View
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import com.mm.workshoptasks.R
 import com.mm.workshoptasks.data.Speaker
 import com.mm.workshoptasks.data.StorageRepo
+import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginPresenter(
+class LoginViewModel(
     private val view: LoginView,
     private val storageRepo: StorageRepo,
     private val speaker: Speaker
-) {
+): ViewModel() {
+    val emailValue = ObservableField<String>("")
+    val passValue = ObservableField<String>("")
+    val attemptsLabelText = ObservableField<String>("")
+    val attemptsLabelVisibility = ObservableBoolean(false)
+
     private var counter = 0
 
     fun onStart() {
@@ -42,14 +54,16 @@ class LoginPresenter(
     }
 
     fun onLoginClicked() {
-        val email = view.getEmail()
-        val pass = view.getPassword()
+        val email = emailValue.get() ?: ""
+        val pass = passValue.get() ?: ""
         if ("@" !in email || pass != "aaa") { // Replace with actual login verification
             counter++
-            view.displayAttempts(counter)
+            attemptsLabelVisibility.set(true)
+            attemptsLabelText.set("Failed to login num $counter")
         } else {
             counter = 0
-            view.displayAttempts(null)
+            attemptsLabelVisibility.set(false)
+            attemptsLabelText.set("")
             loginSuccess(email)
         }
     }
