@@ -13,8 +13,3 @@ fun Context.toast(message: String) {
 
 fun Activity.argString(key: String) = lazy { intent.getStringExtra(key) }
 fun <T: Parcelable> Activity.arg(key: String) = lazy { intent.getParcelableExtra<T>(key) }
-
-@BindingAdapter("android:visibility")
-fun View.setVisible(value: Boolean) {
-    visibility = if (value) View.VISIBLE else View.GONE
-}

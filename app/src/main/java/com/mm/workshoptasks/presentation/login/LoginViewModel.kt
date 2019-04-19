@@ -64,12 +64,13 @@ class LoginViewModel(
             counter = 0
             attemptsLabelVisibility.set(false)
             attemptsLabelText.set("")
+
+            storageRepo.setEmail(email)
             loginSuccess(email)
         }
     }
 
     private fun loginSuccess(email: String) {
-        storageRepo.setEmail(email)
         view.switchToMainActivity(email)
     }
 }

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -20,21 +19,21 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), LoginView {
 
-    private val presenter by lazy { LoginViewModel(this, StorageRepoImpl(this), AndroidSpeaker(this)) }
+    private val vm by lazy { LoginViewModel(this, StorageRepoImpl(this), AndroidSpeaker(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DataBindingUtil
             .setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
-            .vm = presenter
+            .vm = vm
 
-        presenter.onStart()
+        vm.onStart()
 
         passwordView.setOnEditorActionListener { _, actionId, event ->
             val isActionLogin = (actionId == EditorInfo.IME_ACTION_GO ||
                     event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)
             if (isActionLogin) {
-                presenter.onLoginClicked()
+                vm.onLoginClicked()
             }
             isActionLogin
         }
@@ -42,7 +41,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onDestroy()
+        vm.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -52,11 +51,11 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.message_task -> {
-            presenter.onMessageTaskClicked()
+            vm.onMessageTaskClicked()
             true
         }
         R.id.send_message_task -> {
-            presenter.onSendTaskClicked()
+            vm.onSendTaskClicked()
             true
         }
         else -> super.onOptionsItemSelected(item)
